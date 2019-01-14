@@ -28,7 +28,7 @@ var spot=0;
 var ts=0;
 var win=false;
 for(var i =0; i<6; i++)
-   cars[i] = {x:0, y:0, s:0, r:Math.floor(Math.random()*255), g:Math.floor(Math.random()*255), b:Math.floor(Math.random()*255)};
+   cars[i] = {x:0, y:0, s:0, r:Math.floor(Math.random()*255), g:Math.floor(Math.random()*255), b:Math.floor(Math.random()*255), convert: Math.floor(Math.random()*3+1)};
 
 function initAll()
 {
@@ -64,8 +64,13 @@ function setTitle()
    makeCars3();
    makeCars4();
    makeCars5();
+   makeWind();
+   makeHeadlights();
+   makeTaillights();
+   makeMirrors();
    print();
    drawPlayer();
+   drawPlayer2();
    for(var i =1; i<6; i=i+2)
    {
        cars[i].x+=cars[i].s;
@@ -117,6 +122,74 @@ function makeCars0()
    ctx.fillStyle = "rgb("+cars[0].r+","+cars[0].g+","+cars[0].b+")";
    ctx.fill();
 }
+function makeMirrors()
+{
+    ctx.beginPath();
+    ctx.fillStyle = "#ffffff";
+    for(var i = 0; i<5; i=i+2)
+    {
+        ctx.rect(cars[i].x+30, cars[i].y-3,4,6);
+        ctx.rect(cars[i].x+30, cars[i].y+47,4,6);
+    }
+    for(var i = 1; i<6; i=i+2)
+    {
+        ctx.rect(cars[i].x+46, cars[i].y-3,4,6);
+        ctx.rect(cars[i].x+46, cars[i].y+47,4,6);
+    }
+    ctx.fill();
+}
+function makeWind()
+{
+    ctx.beginPath();
+    for(var i = 1; i<6;i=i+2)
+    {
+    if(cars[i].convert==3)
+        ctx.rect(cars[i].x+40,cars[i].y+5,20,40)
+    else
+        ctx.rect(cars[i].x+20, cars[i].y+5,40,40)
+    }
+    for(var i = 0; i<5;i=i+2)
+    {
+    if(cars[i].convert==3)
+        ctx.rect(cars[i].x+20,cars[i].y+5,20,40)
+    else
+        ctx.rect(cars[i].x+20, cars[i].y+5,40,40)
+    }
+    ctx.fillStyle = "#000000";
+   ctx.fill();
+}
+function makeHeadlights()
+{
+    ctx.beginPath();
+    ctx.fillStyle = "#ffff00";
+    for(var i = 0; i<5; i=i+2)
+    {
+        ctx.rect(cars[i].x, cars[i].y,4,6);
+        ctx.rect(cars[i].x, cars[i].y+44,4,6);
+    }
+    for(var i = 1; i<6; i=i+2)
+    {
+        ctx.rect(cars[i].x+76, cars[i].y,4,6);
+        ctx.rect(cars[i].x+76, cars[i].y+44,4,6);
+    }
+    ctx.fill();
+}
+function makeTaillights()
+{
+    ctx.beginPath();
+    ctx.fillStyle = "#ff0000";
+    for(var i = 1; i<6; i=i+2)
+    {
+        ctx.rect(cars[i].x, cars[i].y,4,6);
+        ctx.rect(cars[i].x, cars[i].y+44,4,6);
+    }
+    for(var i = 0; i<5; i=i+2)
+    {
+        ctx.rect(cars[i].x+76, cars[i].y,4,6);
+        ctx.rect(cars[i].x+76, cars[i].y+44,4,6);
+    }
+    ctx.fill();
+}
 function makeCars1()
 {
    ctx.beginPath();
@@ -163,8 +236,13 @@ function play()
    makeCars3();
    makeCars4();
    makeCars5();
+   makeWind();
+   makeTaillights();
+   makeHeadlights();
+   makeMirrors();
    print();
    drawPlayer();
+   drawPlayer2();
    collisionDetection();
    if(left==true && xp-speed>=0)
    {   xp-=speed;
@@ -295,6 +373,10 @@ function setWin()
    makeCars3();
    makeCars4();
    makeCars5();
+   makeWind();
+   makeHeadlights();
+   makeTaillights();
+   makeMirrors();
    print();
    for(var i =1; i<6; i=i+2)
    {
@@ -314,6 +396,8 @@ function setWin()
  ctx.font = "50px Impact";
  ctx.fillText("Score: "+score,230,280);
  ctx.fillText("High: "+highscore,230,340);
+ if(score>highscore)
+    ctx.fillText("New Highscore!",160,400)
  ctx.font = "20px Courier New";
  if(yellow3==true)
       ctx.fillStyle = "#dbff4d";
@@ -366,8 +450,16 @@ function drawRoads()
 function drawPlayer()
 {
    ctx.beginPath();
-   ctx.fillStyle = "rgb(255,126,48)";
+   ctx.fillStyle = "#1a237e";
    ctx.rect(xp, yp, 30, 30);
+   ctx.fill();
+   ctx.closePath();
+}
+function drawPlayer2()
+{
+    ctx.beginPath();
+   ctx.fillStyle = "#67ff03";
+   ctx.rect(xp+7, yp+7, 16, 16);
    ctx.fill();
    ctx.closePath();
 }
@@ -424,4 +516,3 @@ function keyUpHandler(e)
    else if(e.keyCode==40&&ts>=1)
        down=true;
 }
-

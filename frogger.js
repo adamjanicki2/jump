@@ -22,7 +22,6 @@ var left=false;
 var right=false;
 var down=false;
 var speed = 45;
-var level = 1;
 var cars = [];
 var spot=0;
 var ts=0;
@@ -34,7 +33,6 @@ function initAll()
 {
    canvas = document.getElementById("myCanvas");
    ctx = canvas.getContext("2d");
-   document.addEventListener("keydown",keyDownHandler, false);
    document.addEventListener("keyup", keyUpHandler,false);
    document.addEventListener("mouseup", mouseUpHandler,false);
    document.addEventListener("mousemove",mouseMoveHandler,false);
@@ -351,7 +349,6 @@ function collisionDetection()
 }
 function resetLevel()
 {
-   level++;
    yp=470;
    xp=285;
    spot=0;
@@ -416,10 +413,10 @@ function print()
    ctx.font = "20px Impact";
    ctx.fillText(""+score, 10, 25);
    if(highscore!=null)
-       ctx.fillText("HI: "+highscore,550,25);
+       ctx.fillText("HI: "+highscore,542,25);
    else{
        highscore=0;
-       ctx.fillText("HI: "+highscore,550,25);
+       ctx.fillText("HI: "+highscore,542,25);
    }
 }
 function drawBackground()
@@ -494,10 +491,6 @@ function mouseUpHandler(e)
       {
           document.location.reload();
       }
-}
-function keyDownHandler(e)
-{
-
 }
 function keyUpHandler(e)
 {

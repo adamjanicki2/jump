@@ -1,4 +1,4 @@
-window.onload = initAll;
+window.onload = start;
 var canvas;
 var ctx;
 var interval;
@@ -12,6 +12,7 @@ var x;
 var y;
 var score=0;
 var highscore;
+var car;
 highscore=localStorage.getItem('high');
 if(highscore==null)
     highscore=0;
@@ -29,13 +30,15 @@ var win=false;
 for(var i =0; i<6; i++)
    cars[i] = {x:0, y:0, s:0, r:Math.floor(Math.random()*255), g:Math.floor(Math.random()*255), b:Math.floor(Math.random()*255), convert: Math.floor(Math.random()*3+1)};
 
-function initAll()
+function start()
 {
    canvas = document.getElementById("myCanvas");
    ctx = canvas.getContext("2d");
    document.addEventListener("keyup", keyUpHandler,false);
    document.addEventListener("mouseup", mouseUpHandler,false);
    document.addEventListener("mousemove",mouseMoveHandler,false);
+   car = new Audio();
+   car.src = "carhit.mp3";
    for(var i = 0; i<6; i++)
    {
        var r = Math.random()*3+1;
@@ -340,6 +343,7 @@ function collisionDetection()
             localStorage.setItem('high',score);
         }
            win=true;
+           car.play();
            clearInterval(interval);
            yp=470;
            interval=setInterval(setWin,20);

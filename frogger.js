@@ -10,12 +10,10 @@ var x1;
 var y1;
 var x;
 var y;
+var car;
 var score=0;
 var highscore;
-var car;
-highscore=localStorage.getItem('high');
-if(highscore==null)
-    highscore=0;
+highscore=localStorage.getItem('high',score);
 var xp = 285;
 var yp = 470;
 var up=false;
@@ -72,6 +70,8 @@ function setTitle()
    print();
    drawPlayer();
    drawPlayer2();
+   drawPlayer3();
+   drawPlayer4();
    for(var i =1; i<6; i=i+2)
    {
        cars[i].x+=cars[i].s;
@@ -244,6 +244,8 @@ function play()
    print();
    drawPlayer();
    drawPlayer2();
+   drawPlayer3();
+   drawPlayer4();
    collisionDetection();
    if(left==true && xp-speed>=0)
    {   xp-=speed;
@@ -334,14 +336,14 @@ function collisionDetection()
        var y =cars[i].y;
        if(xp+30>=x && xp<=x+80 && yp+30>=y && yp<y+50)
        {
-        if(highscore==0 || highscore==null)
+        if(highscore==null)
         {
-            localStorage.setItem('high',score);
+            //chromestuff
         }
         else if(score>highscore)
         {
             localStorage.setItem('high',score);
-        }
+        }  
            win=true;
            car.play();
            clearInterval(interval);
@@ -393,10 +395,10 @@ function setWin()
    }
  ctx.font = "100px Impact";
  ctx.fillStyle = "rgb(255,126,48)";
- ctx.fillText("Game Over",90,200);
+ ctx.fillText("Game Over",90,130);
  ctx.font = "50px Impact";
- ctx.fillText("Score: "+score,230,280);
- ctx.fillText("High: "+highscore,230,340);
+ ctx.fillText("Score: "+score,230,236);
+ ctx.fillText("High: "+highscore,234,300);
  if(score>highscore)
     ctx.fillText("New Highscore!",160,400)
  ctx.font = "20px Courier New";
@@ -452,15 +454,38 @@ function drawPlayer()
 {
    ctx.beginPath();
    ctx.fillStyle = "#1a237e";
-   ctx.rect(xp, yp, 30, 30);
+   ctx.rect(xp, yp, 8, 8);
+   ctx.rect(xp+22, yp, 8, 8);
+   ctx.rect(xp+22, yp+22, 8, 8);
+   ctx.rect(xp, yp+22, 8, 8);
    ctx.fill();
    ctx.closePath();
 }
 function drawPlayer2()
 {
     ctx.beginPath();
-   ctx.fillStyle = "#67ff03";
-   ctx.rect(xp+7, yp+7, 16, 16);
+   ctx.fillStyle = "rgb(255,126,48)";
+   ctx.rect(xp+4, yp+4, 22, 22);
+   ctx.fill();
+   ctx.closePath();
+}
+function drawPlayer3()
+{
+    ctx.beginPath();
+    ctx.fillStyle = "#000000";
+    ctx.rect(xp+5, yp+5, 3, 3);
+    ctx.rect(xp+22, yp+5, 3, 3);
+   ctx.fill();
+   ctx.closePath();
+}
+function drawPlayer4()
+{
+    ctx.beginPath();
+    ctx.fillStyle = "#4CAF50";
+    ctx.rect(xp+8, yp+2, 14, 2);
+    ctx.rect(xp+8, yp+26, 14, 2);
+    ctx.rect(xp+2, yp+8, 2, 14);
+    ctx.rect(xp+26, yp+8, 2, 14);
    ctx.fill();
    ctx.closePath();
 }
